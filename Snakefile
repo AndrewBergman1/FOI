@@ -110,20 +110,6 @@ rule all:
         "outputs/plots/barchart_overlap.png"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
         # "/mnt/autofs/shared/storage01/users/exjobb/abergm/bait_gen/mitochondrial_search/mtDNA_cpDNA.fasta",
         # "/mnt/autofs/shared/storage01/users/exjobb/abergm/bait_gen/mitochondrial_search/filtered_mtDNA_cpDNA.fasta",
@@ -163,7 +149,6 @@ rule all:
         # CATCH alignment in BLAST format
         #"outputs/catch/kalamari_alignment/resultDB.m8",
 
-        #"outputs/syotti/kalamari_alignment/resultDB.m8"
 
         # NT database
         #"/mnt/autofs/shared/storage01/users/exjobb/abergm/data/NT/ntDB"
@@ -346,33 +331,7 @@ rule download_kalamari_database:
        "mmseqs databases Kalamari data/kalamari/kalamari tmp"
 
 
-# Search the kalamari database to get an understanding of which organimsms probes will bind to
-rule syotti_search_kalamari_taxa: 
-    conda:
-       "mmseqs2"
-    input:
-       syottiDB = "outputs/syotti/syotti_10_DB",
-       kalamari = "data/kalamari/kalamari"
-    output:
-       "outputs/syotti/kalamari_alignment/resultDB.1"
-    shell:
-       "mmseqs search {input.syottiDB} {input.kalamari} outputs/syotti/kalamari_alignment/resultDB outputs/syotti/kalamari_alignment/tmp --search-type 3 -s 7.0"
 
-
-# Convert kalamari alignment to blast format
-rule convert_syotti_alignment_to_blast_format:
-    conda:
-       "mmseqs2"
-    input:
-       queryDB = "outputs/syotti/syotti_10_DB",
-       targetDB = "data/kalamari/kalamari",
-       resultDB = "outputs/syotti/kalamari_alignment/resultDB.1"
-    output: 
-       "outputs/syotti/kalamari_alignment/resultDB.m8"
-    shell:
-       """
-       mmseqs convertalis {input.queryDB} {input.targetDB} "outputs/syotti/kalamari_alignment/resultDB" {output} --format-output "query,target,taxlineage,taxname,bits"
-       """
 
 
 # Download entries for chloroplasts and mitochondrial sequences to a fasta database 
@@ -676,20 +635,6 @@ rule generate_overlap_barchart:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # rule search_syotti_hits:
 #     conda:
 #         "mmseqs2"
@@ -837,4 +782,3 @@ rule generate_overlap_barchart:
 
 # rule plot_catch_taxa 
 # rule plot_syotti_taxa 
-
